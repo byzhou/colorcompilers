@@ -231,7 +231,7 @@ $compiler_pid = open3('<&STDIN', \*GCCOUT, '', $compiler, @ARGV);
 # Colorize the output from the compiler.
 while(<GCCOUT>)
 {
-  if (m/sssssss:sssss/) # filename:lineno:message
+  if (m/ddddddddd/) # filename:lineno:message
   {
     $field1 = $1 || "";
     $field2 = $2 || "";
@@ -299,7 +299,51 @@ while(<GCCOUT>)
   }
   elsif (m/Caching library/) 
   {
-    srcscan($_, $colors{"introColor"});
+    srcscan($_, $colors{"errorFileNameColor"});
+  }
+  elsif (m/Modules:/)
+  {
+    srcscan($_, $colors{"errorNumberColor"});
+  }
+  elsif (m/Resolved nets/) 
+  {
+    srcscan($_, $colors{"errorMessageColor"});
+  }
+  elsif (m/Registers:/)
+  {
+    srcscan($_, $colors{"errorFileNameColor"});
+  }
+  elsif (m/Vectored wires:/)
+  {
+    srcscan($_, $colors{"errorNumberColor"});
+  }
+  elsif (m/Named events:/)
+  {
+    srcscan($_, $colors{"errorMessageColor"});
+  }
+  elsif (m/Always blocks:/)
+  {
+    srcscan($_, $colors{"errorFileNameColor"});
+  }
+  elsif (m/Initial blocks:/)
+  {
+    srcscan($_, $colors{"errorNumberColor"});
+  }
+  elsif (m/Cont. assignments:/)
+  {
+    srcscan($_, $colors{"errorMessageColor"});
+  }
+  elsif (m/Pseudo assignments:/)
+  {
+    srcscan($_, $colors{"errorFileNameColor"});
+  }
+  elsif (m/Compilation units:/)
+  {
+    srcscan($_, $colors{"errorNumberColor"});
+  }
+  elsif (m/Simulation timescale:/)
+  {
+    srcscan($_, $colors{"errorMessageColor"});
   }
   elsif (m/^(.*?):(.+):$/) # filename:message:
   {
